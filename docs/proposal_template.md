@@ -67,7 +67,7 @@ If user chooses "2", list all borrowed books
 Repeat until user exits program
 
 ## Sample Wireframe
- -Main Menu
+ - Main Menu
 ```
 ====================================================
                       		          KILOWATT
@@ -101,7 +101,8 @@ Enter your choice:
 Enter your choice:
 ```
 (more in-depth sample wireframes in the pdf)
--Consumption Calculator
+
+- Consumption Calculator
 ```
 ============== CONSUMPTION CALCULATOR ==============
 
@@ -135,7 +136,7 @@ Daily Cost:             PHP 12.72
 Monthly Cost:            PHP 381.60
 ====================================================
 ```
--Energy Analysis
+- Energy Analysis
 ```
 ================ ENERGY ANALYSIS ================
 
@@ -162,7 +163,7 @@ Lighting:       5.400 kWh (16.98%)
 
 =================================================
 ```
--Appliance Comparator
+- Appliance Comparator
 ```
 =============== APPLIANCE COMPARATOR ===============
 
@@ -190,7 +191,7 @@ Electric Fan has the higher estimated consumption.
 
 ===================================================
 ```
--Usage Simulator
+- Usage Simulator
 ```
 ================ USAGE SIMULATOR ================
 
@@ -218,7 +219,7 @@ Estimated cost is lower in this scenario.
 Original appliance record remains unchanged.
 =================================================
 ```
--Settings and Data
+- Settings and Data
 ```
 =============== SETTINGS AND DATA ===============
 
