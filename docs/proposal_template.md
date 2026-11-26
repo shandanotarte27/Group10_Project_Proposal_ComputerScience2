@@ -74,7 +74,7 @@ Attach or draw a flowchart showing how the program will work.
 
 ## 📂 GitHub Repository Link  
 Paste your GitHub repository link here:  
-`https://github.com/shandanotarte27/Group10_Project_Proposal_ComputerScience2`  
+https://github.com/shandanotarte27/Group10_Project_Proposal_ComputerScience2
 
 ## Assigned Team Members and Responsibilities
 Jeph Azriel G. Buniel
