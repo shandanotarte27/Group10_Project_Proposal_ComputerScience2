@@ -1,50 +1,53 @@
 # 📌 Project Proposal (Draft)
 
 ## 📝 Project Title  
-*Enter your initial project title here.*  
-
+KILOWATT: Know Your Usage. Make Every Watt Count.
 ---
 
 ## 🔍 Problem Statement  
 What real-world problem does your project want to solve?  
-- Describe the issue or need you identified.  
-- Explain why this problem is relevant and worth solving.  
-- Relate the problem to the dataset you selected (e.g., hospital, ecommerce, students, etc.).  
-
+- Households often find it difficult to determine how individual appliances contribute to their electricity consumption and expenses, particularly how wattage, quantity, and daily operating hours affect estimated electricity costs..  
+- Electricity is essential household expense. Understanding appliance consumption can help households recognize usage patterns, compare appliances, and make more informed decisions about their electricity usage..  
+- KiloWatt utilizes appliance names, categories, wattage, quantity, daily operating hours, and a configurable electricity rate to calculate estimated consumption and costs, analyze usage, compare appliances, and simulate hypothetical changes in operating hours.
 ---
 
 ## 🎯 Project Objectives  
 Write at least **2–3 clear objectives** your project aims to achieve. Example:  
-- Objective 1: To analyze and summarize data from the chosen JSON dataset.  
-- Objective 2: To help users gain meaningful insights (e.g., averages, trends, patterns).  
-- Objective 3: To practice JSON handling and Python programming concepts.  
-
+- Objective 1: To develop a system that records, manages, and stores household appliance data using JSON.  
+- Objective 2: To calculate and analyze household electricity consumption and estimated costs through organized summaries, rankings, and comparisons.  
+- Objective 3: To simulate changes in appliance usage hours and evaluate their potential effects on electricity consumption and costs.
 ---
 
 ## ⚙️ Planned Features  
 Your program must have **at least 5 features (minimum)**.  
 We have provided **2 starter ideas** for each dataset — you must design **at least 3 additional features**.  
 
-- Feature 1: *(Starter idea)*  
-- Feature 2: *(Starter idea)*  
-- Feature 3: *(Your own idea)*  
-- Feature 4: *(Your own idea)*  
-- Feature 5: *(Your own idea)*  
-
-*(You may add more features if you like.)*  
-
+- Feature 1: Appliance Registry – Add, view, search, update, and delete household appliance records. 
+- Feature 2: Consumption Calculator – Calculate the estimated daily and monthly electricity consumption and costs of appliances and the household.  
+- Feature 3: Energy Analysis – Generate consumption rankings, percentages, category breakdowns, and household summaries. 
+- Feature 4: Appliance Comparator – Compare two appliances based on their estimated electricity consumption and costs.  
+- Feature 5: Usage Simulator – Simulate changes in an appliance's daily operating hours and evaluate their effects on consumption and costs without modifying the original records.
 ---
 
 ## ⌨️ Planned Inputs and Outputs  
 
 - **Inputs**  
-  - What kind of data will the user provide (if any)?  
-  - Example: student ID, date range, product name  
-
-- **Outputs**  
-  - What kind of results will your program display?  
-  - Example: class averages, top products, weather summary  
-
+  - Appliance category (Cooling, Lighting, Kitchen, Entertainment, Laundry/Cleaning, or Other)
+  - Wattage (in watts)
+  - Quantity
+  - Daily operating hours (0–24 hours)
+  - Electricity rate (₱/kWh)
+  - Appliance ID (for searching, updating, deleting, or comparing records)
+  - imulated daily operating hours (for the Usage Simulator)
+    
+- **Outputs**
+  - Estimated daily and monthly electricity costs (₱)
+  - Total household electricity consumption and expenses
+  - Appliance consumption rankings and percentage breakdowns
+  - Category-based consumption summaries and averages
+  - Comparison of two appliances' consumption and costs
+  - Simulated consumption and costs based on adjusted operating hours
+  - Updated appliance records and electricity rate settings
 ---
 
 ## 🧠 Logic Plan  
@@ -66,6 +69,6 @@ Attach or draw a flowchart showing how the program will work.
 
 ## 📂 GitHub Repository Link  
 Paste your GitHub repository link here:  
-`https://github.com/username/project-proposal`  
+``  
 
 ---
