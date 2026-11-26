@@ -59,12 +59,211 @@ We have provided **2 starter ideas** for each dataset — you must design **at l
 Describe your program’s logic:  
 
 ### Pseudocode  
-Write your steps in plain English. Example:  
-Load JSON file
-Display menu of features
-If user chooses "1", compute average grade per student
-If user chooses "2", list all borrowed books
-Repeat until user exits program
+```
+START PROGRAM
+
+DECLARE rate AS REAL
+DECLARE appliances AS ARRAY OF RECORD
+DECLARE choice, subchoice AS INTEGER
+DECLARE id, id_1, id_2, quantity, next_id AS INTEGER
+DECLARE wattage, hours, sim_hours, new_rate AS REAL
+DECLARE daily_kwh, monthly_kwh, daily_cost, monthly_cost AS REAL
+DECLARE orig_daily_kwh, orig_monthly_kwh, orig_daily_cost, orig_monthly_cost AS REAL
+DECLARE sim_daily_kwh, sim_monthly_kwh, sim_daily_cost, sim_monthly_cost AS REAL
+DECLARE kwh_1, kwh_2, cost_1, cost_2, kwh_diff, cost_diff AS REAL
+DECLARE total_kwh, total_cost, average_kwh, share_pct AS REAL
+DECLARE name, category, search_field, query AS STRING
+DECLARE found AS BOOLEAN
+
+LOAD rate, appliances FROM "kilowatt_data.json"
+IF file is missing OR invalid THEN
+    rate = 12.00
+    appliances = empty list
+    SAVE rate, appliances TO "kilowatt_data.json"
+END IF
+
+LOOP forever
+    DISPLAY main menu (1. Registry, 2. Calculator, 3. Analysis, 4. Comparator, 5. Simulator, 6. Settings, 7. Exit)
+    INPUT choice
+
+    SWITCH choice
+        CASE 1:
+            DISPLAY registry menu (1. Add, 2. View, 3. Search, 4. Update, 5. Delete, 6. Back)
+            INPUT subchoice
+            SWITCH subchoice
+                CASE 1:
+                    INPUT name, category, wattage, quantity, hours
+                    VALIDATE name non-empty, category valid, wattage > 0, quantity >= 1, hours from 0 to 24
+                    next_id = maximum id in appliances + 1 (or 1 if empty)
+                    ADD record (next_id, name, category, wattage, quantity, hours) TO appliances
+                    SAVE rate, appliances TO "kilowatt_data.json"
+                CASE 2:
+                    IF appliances is empty THEN
+                        DISPLAY "No appliances registered"
+                    ELSE
+                        DISPLAY all records in appliances
+                    END IF
+                CASE 3:
+                    IF appliances is empty THEN
+                        DISPLAY "No appliances registered"
+                    ELSE
+                        INPUT search_field, query
+                        SEARCH appliances by id, name, or category matching query
+                        IF no matches found THEN
+                            DISPLAY "No matching records"
+                        ELSE
+                            DISPLAY matched records
+                        END IF
+                    END IF
+                CASE 4:
+                    IF appliances is empty THEN
+                        DISPLAY "No appliances registered"
+                    ELSE
+                        INPUT id
+                        FIND record in appliances with record.id == id
+                        IF not found THEN
+                            DISPLAY "Appliance not found"
+                        ELSE
+                            INPUT updated fields (keep existing value if left blank)
+                            VALIDATE updated fields
+                            UPDATE record in appliances
+                            SAVE rate, appliances TO "kilowatt_data.json"
+                        END IF
+                    END IF
+                CASE 5:
+                    IF appliances is empty THEN
+                        DISPLAY "No appliances registered"
+                    ELSE
+                        INPUT id
+                        FIND record in appliances with record.id == id
+                        IF not found THEN
+                            DISPLAY "Appliance not found"
+                        ELSE
+                            REMOVE record FROM appliances
+                            SAVE rate, appliances TO "kilowatt_data.json"
+                        END IF
+                    END IF
+                CASE 6:
+                    BREAK
+            END SWITCH
+
+        CASE 2:
+            IF appliances is empty THEN
+                DISPLAY "No appliances registered"
+            ELSE
+                total_kwh = 0.0
+                total_cost = 0.0
+                FOR EACH app IN appliances
+                    daily_kwh = (app.wattage * app.quantity * app.hours) / 1000.0
+                    monthly_kwh = daily_kwh * 30.0
+                    daily_cost = daily_kwh * rate
+                    monthly_cost = monthly_kwh * rate
+                    total_kwh = total_kwh + monthly_kwh
+                    total_cost = total_cost + monthly_cost
+                    DISPLAY app, daily_kwh, monthly_kwh, daily_cost, monthly_cost
+                END FOR
+                DISPLAY total_kwh, total_cost
+            END IF
+
+        CASE 3:
+            IF appliances is empty THEN
+                DISPLAY "No appliances registered"
+            ELSE
+                total_kwh = 0.0
+                total_cost = 0.0
+                FOR EACH app IN appliances
+                    app.monthly_kwh = ((app.wattage * app.quantity * app.hours) / 1000.0) * 30.0
+                    app.monthly_cost = app.monthly_kwh * rate
+                    total_kwh = total_kwh + app.monthly_kwh
+                    total_cost = total_cost + app.monthly_cost
+                END FOR
+                SORT appliances descending BY monthly_kwh
+                average_kwh = total_kwh / number of appliances
+                GROUP and SUM monthly_kwh BY category
+                FOR EACH app IN appliances
+                    share_pct = (app.monthly_kwh / total_kwh) * 100.0
+                    DISPLAY app, app.monthly_kwh, share_pct, app.monthly_cost
+                END FOR
+                DISPLAY category totals, highest consumer, average_kwh, total_kwh, total_cost
+            END IF
+
+        CASE 4:
+            IF number of appliances < 2 THEN
+                DISPLAY "Need at least two appliances"
+            ELSE
+                INPUT id_1, id_2
+                IF id_1 == id_2 OR id_1 or id_2 not found THEN
+                    DISPLAY "Select two distinct valid appliances"
+                ELSE
+                    kwh_1 = ((app_1.wattage * app_1.quantity * app_1.hours) / 1000.0) * 30.0
+                    kwh_2 = ((app_2.wattage * app_2.quantity * app_2.hours) / 1000.0) * 30.0
+                    cost_1 = kwh_1 * rate
+                    cost_2 = kwh_2 * rate
+                    kwh_diff = ABS(kwh_1 - kwh_2)
+                    cost_diff = ABS(cost_1 - cost_2)
+                    DISPLAY kwh_1, kwh_2, cost_1, cost_2, kwh_diff, cost_diff, higher consumer
+                END IF
+            END IF
+
+        CASE 5:
+            IF appliances is empty THEN
+                DISPLAY "No appliances registered"
+            ELSE
+                INPUT id
+                FIND app in appliances with app.id == id
+                IF not found THEN
+                    DISPLAY "Appliance not found"
+                ELSE
+                    orig_daily_kwh = (app.wattage * app.quantity * app.hours) / 1000.0
+                    orig_monthly_kwh = orig_daily_kwh * 30.0
+                    orig_daily_cost = orig_daily_kwh * rate
+                    orig_monthly_cost = orig_monthly_kwh * rate
+                    DISPLAY orig_daily_kwh, orig_monthly_kwh, orig_daily_cost, orig_monthly_cost
+                    INPUT sim_hours
+                    VALIDATE sim_hours from 0 to 24
+                    sim_daily_kwh = (app.wattage * app.quantity * sim_hours) / 1000.0
+                    sim_monthly_kwh = sim_daily_kwh * 30.0
+                    sim_daily_cost = sim_daily_kwh * rate
+                    sim_monthly_cost = sim_monthly_kwh * rate
+                    DISPLAY sim_daily_kwh, sim_monthly_kwh, sim_daily_cost, sim_monthly_cost
+                    DISPLAY (sim_monthly_kwh - orig_monthly_kwh), (sim_monthly_cost - orig_monthly_cost)
+                END IF
+            END IF
+
+        CASE 6:
+            DISPLAY settings menu (1. View Rate, 2. Change Rate, 3. Save Data, 4. Reload Data, 5. Back)
+            INPUT subchoice
+            SWITCH subchoice
+                CASE 1:
+                    DISPLAY rate
+                CASE 2:
+                    INPUT new_rate
+                    IF new_rate > 0 THEN
+                        rate = new_rate
+                        SAVE rate, appliances TO "kilowatt_data.json"
+                    ELSE
+                        DISPLAY "Invalid rate"
+                    END IF
+                CASE 3:
+                    SAVE rate, appliances TO "kilowatt_data.json"
+                CASE 4:
+                    LOAD rate, appliances FROM "kilowatt_data.json"
+                CASE 5:
+                    BREAK
+            END SWITCH
+
+        CASE 7:
+            SAVE rate, appliances TO "kilowatt_data.json"
+            EXIT LOOP
+
+        DEFAULT:
+            DISPLAY "Invalid choice"
+    END SWITCH
+END LOOP
+
+END PROGRAM
+```
+
 
 ## Sample Wireframe
  - Main Menu
@@ -241,7 +440,46 @@ Saved for future calculations and simulations.
 ```
 
 ### Flowchart  
-Attach or draw a flowchart showing how the program will work.  
+
+```
+                  ( START )
+                      |
+                      v
+             / Load JSON Data /
+                      |
+                      v
+              < Data Valid? >
+               /          \
+             Yes            No
+              |              |
+              v              v
+       / Load Saved /   [ Initialize Data ]
+       / Records    /          |
+              \              /
+               \            /
+                    |
+                    v
+             [ Display Menu ]
+                    |
+                    v
+             / Select Option /
+                    |
+        +-----------+-----------+-----------+-----------+-----------+-----------+
+        |           |           |           |           |           |           |
+        v           v           v           v           v           v           v
+   [Registry]  [Calculator] [Analysis] [Comparator] [Simulator] [Settings]  [Exit]
+        |           |           |           |           |           |           |
+        v           v           v           v           v           v           v
+ [Manage       [Calculate  [Generate   [Compare   [Simulate  [View/Change [Save Data]
+  Records]      kWh & Cost] Insights]  Appliances] Usage]     Rate]          |
+        |           |           |           |           |           |           v
+        +-----------+-----------+-----------+-----------+-----------+       ( END )
+                    |
+                    v
+              [ Return to Menu ]
+                    |
+                    +-------> [ Display Menu ]
+```
 
 ---
 
